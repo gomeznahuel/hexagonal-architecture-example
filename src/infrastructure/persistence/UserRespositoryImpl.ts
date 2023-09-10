@@ -1,16 +1,19 @@
-import { User } from "../../domain/entities/User";
-import { UserRepository } from "../../domain/repositories/UserRepository";
+import { User } from '../../domain/entities/User';
+import { UserRepository } from '../../domain/repositories/UserRepository';
 
 export class UserRepositoryImpl implements UserRepository {
-  private users: User[] = [];
+  constructor() {}
 
-  async createUser(user: User): Promise<User> {
-    this.users.push(user);
-    return user;
+  async createUser(name: string): Promise<User> {
+    const user = new User({ name });
+    return user.save();
   }
 
   async findUserById(id: string): Promise<User | null> {
-    const user = this.users.find((u) => u.id === id);
-    return user || null;
+    return User.findById(id).exec();
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return User.find().exec();
   }
 }
