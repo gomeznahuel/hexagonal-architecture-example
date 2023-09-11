@@ -16,4 +16,12 @@ export class UserRepositoryImpl implements UserRepository {
   async getAllUsers(): Promise<User[]> {
     return User.find().exec();
   }
+
+  async updateUser(id: string, name: string): Promise<User | null> {
+    return User.findByIdAndUpdate(id, { name }, { new: true }).exec();
+  }
+
+  async deleteUser(id: string): Promise<User | null> {
+    return User.findByIdAndDelete(id).exec();
+  }
 }
